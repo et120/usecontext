@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { getUserData } from '../DataServices/DataServices';
 
 const HomePageComponent = () => {
-    const [userInfo, setUserInfo] = useState({});
+    const [userInfo, setUserInfo] = useState({}); //userInfo is a state variable set to an empty object
+    const [newPerson, setNewPerson] = useState(true); //newPerson is a state variable set to a boolean value
     
     const navigate = useNavigate(); //React's router-dom method for changing URL locations
 
@@ -22,7 +23,11 @@ const HomePageComponent = () => {
 
         getData();
 
-    }, []) //dependency array determines when useEffect fires
+    }, [newPerson]) //dependency array determines when useEffect fires
+
+    const handleNewPerson = () => {
+        setNewPerson(!newPerson)
+    };
 
   return (
     <div>
@@ -31,7 +36,8 @@ const HomePageComponent = () => {
         {/* if the Left side expression is truthy, then the right side is returned */}
         <h2>{userInfo.name && userInfo.name.title} {userInfo.name && userInfo.name.first} {userInfo.name && userInfo.name.last}</h2>
 
-        <Button variant="secondary" onClick={handlePageChange}>Secondary</Button>{' '}
+        <Button variant="secondary" onClick={handlePageChange}>Change to Profile Page</Button>{' '}
+        <Button variant="warning" onClick={handleNewPerson}>Get New Person</Button>{' '}
 
     </div>
   )
