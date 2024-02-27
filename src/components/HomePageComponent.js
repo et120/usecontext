@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 import { getUserData } from '../DataServices/DataServices';
+import UserContext from '../UserContext/UserContext';
 
 const HomePageComponent = () => {
     const [userInfo, setUserInfo] = useState({}); //userInfo is a state variable set to an empty object
     const [newPerson, setNewPerson] = useState(true); //newPerson is a state variable set to a boolean value
     
+    let data = useContext(UserContext); //takes in the parameter of Context (UserContext) & we're storing the values inside of data
+
     const navigate = useNavigate(); //React's router-dom method for changing URL locations
 
     const handlePageChange = () => {
@@ -17,8 +20,9 @@ const HomePageComponent = () => {
     useEffect(() => {
         const getData = async () => {
             const fetchedData = await getUserData();
-            console.log(fetchedData);
             setUserInfo(fetchedData);
+            // we're passing in fetchedData through our setter function to set the value of user to our fetched data
+            data.setUser(fetchedData);
         }
 
         getData();
